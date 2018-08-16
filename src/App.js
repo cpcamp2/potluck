@@ -21,8 +21,8 @@ class App extends Component {
         <div className='container'>
           <section className='add-item'>
             <form>
-              <input type='text' name='username' placeholder='Enter your name' />
-              <input type='text' name='currentItem' placeholder='Enter your dish' />
+              <input type='text' name='username' placeholder='Enter your name' onChange={this.handleChange} value={this.state.username} />
+              <input type='text' name='currentItem' placeholder='Enter your dish' onChange={this.handleChange} value={this.state.currentItem} />
               <button>Add Dish</button>
             </form>
           </section>
