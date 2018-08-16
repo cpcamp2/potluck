@@ -97,30 +97,17 @@ class App extends Component {
             <h1>Potluck</h1>
           </div>
         </header>
-        <div className='container'>
-          <section className='add-item'>
-            <form onSubmit={this.handleSubmit}>
-              <input type='text' name='username' placeholder='Enter your name' onChange={this.handleChange} value={this.state.username} />
-              <input type='text' name='currentItem' placeholder='Enter your dish' onChange={this.handleChange} value={this.state.currentItem} />
-              <button>Add Dish</button>
-            </form>
-          </section>
-          <section className='display-item'>
-            <div className='wrapper'>
-              <ul>
-                {this.state.items.map((item) => {
-                  return (
-                    <li key={item.id}>
-                      <h3>{item.title}</h3>
-                      <p>brought by: {item.user}</p>
-                      <button onClick={() => this.removeItem(item.id)}>Remove Dish</button>
-                    </li>
-                  )
-                })}
-              </ul>
+        {this.state.user ?
+          <div>
+            <div className='user-profile'>
+              <img src={this.state.user.photoURL} />
             </div>
-          </section>
-        </div>
+          </div>
+          :
+          <div className='wrapper'>
+            <p>You must be logged in to see the potluck list and add dishes of your own.</p>
+          </div>
+        }
       </div>
     );
   }
