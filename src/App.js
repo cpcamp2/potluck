@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
+import firebase from './firebase';
 
 class App extends Component {
   constructor() {
@@ -28,7 +28,7 @@ class App extends Component {
         </header>
         <div className='container'>
           <section className='add-item'>
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <input type='text' name='username' placeholder='Enter your name' onChange={this.handleChange} value={this.state.username} />
               <input type='text' name='currentItem' placeholder='Enter your dish' onChange={this.handleChange} value={this.state.currentItem} />
               <button>Add Dish</button>
