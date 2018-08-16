@@ -9,6 +9,7 @@ class App extends Component {
       currentItem: '',
       username: ''
     }
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
