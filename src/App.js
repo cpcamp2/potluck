@@ -13,6 +13,8 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   handleChange(e) {
@@ -33,6 +35,20 @@ class App extends Component {
       currentItem: '',
       username: ''
     });
+  }
+
+  login() {
+    auth.signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      this.setState({
+        user
+      });
+    });
+  }
+
+  logout() {
+
   }
 
   removeItem(itemId) {
@@ -66,7 +82,7 @@ class App extends Component {
             {this.state.user ?
               <button onClick={this.logout}>Log Out</button>
               :
-              <button onClick={this.login}>Log Out</button>
+              <button onClick={this.login}>Login</button>
             }
             <h1>Potluck</h1>
           </div>
