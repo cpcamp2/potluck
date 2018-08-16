@@ -28,7 +28,7 @@ class App extends Component {
     const itemsRef = firebase.database().ref('items');
     const item = {
       title: this.state.currentItem,
-      user: this.state.username
+      user: this.state.user.displayName || this.state.user.email
     }
     itemsRef.push(item);
     this.setState({
