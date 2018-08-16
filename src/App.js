@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import firebase from './firebase';
+import firebase, { auth, provider } from './firebase';
 
 class App extends Component {
   constructor() {
@@ -8,10 +8,13 @@ class App extends Component {
     this.state = {
       currentItem: '',
       username: '',
-      items: []
+      items: [],
+      user: null
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   handleChange(e) {
@@ -25,12 +28,31 @@ class App extends Component {
     const itemsRef = firebase.database().ref('items');
     const item = {
       title: this.state.currentItem,
-      user: this.state.username
+      user: this.state.user.displayName || this.state.user.email
     }
     itemsRef.push(item);
     this.setState({
       currentItem: '',
       username: ''
+    });
+  }
+
+  login() {
+    auth.signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      this.setState({
+        user
+      });
+    });
+  }
+
+  logout() {
+    auth.signOut()
+    .then(() => {
+      this.setState({
+        user: null
+      });
     });
   }
 
@@ -40,6 +62,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      }
+    });
     const itemsRef = firebase.database().ref('items');
     itemsRef.on('value', (snapshot) => {
       let items = snapshot.val();
@@ -62,33 +89,48 @@ class App extends Component {
       <div className='app'>
         <header>
           <div className='wrapper'>
+            {this.state.user ?
+              <button onClick={this.logout}>Log Out</button>
+              :
+              <button onClick={this.login}>Login</button>
+            }
             <h1>Potluck</h1>
           </div>
         </header>
-        <div className='container'>
-          <section className='add-item'>
-            <form onSubmit={this.handleSubmit}>
-              <input type='text' name='username' placeholder='Enter your name' onChange={this.handleChange} value={this.state.username} />
-              <input type='text' name='currentItem' placeholder='Enter your dish' onChange={this.handleChange} value={this.state.currentItem} />
-              <button>Add Dish</button>
-            </form>
-          </section>
-          <section className='display-item'>
-            <div className='wrapper'>
-              <ul>
+        {this.state.user ?
+          <div>
+            <div className='user-profile'>
+              <img src={this.state.user.photoURL} />
+            </div>
+            <div className='container'>
+              <section className='add-item'>
+                <form onSubmit={this.handleSubmit}>
+                  <input type="text" name="username" placeholder="What's your name" value={this.state.user.displayName || this.state.user.email} />
+                  <input type="text" name="currentItem" placeholder="What dish are you bringing?" onChange={this.handleChange} value={this.state.currentItem} />
+                  <button>Add Dish</button>
+                </form>
+              </section>
+              <section className='display-item'>
                 {this.state.items.map((item) => {
                   return (
                     <li key={item.id}>
                       <h3>{item.title}</h3>
-                      <p>brought by: {item.user}</p>
-                      <button onClick={() => this.removeItem(item.id)}>Remove Dish</button>
+                      <p>
+                        brought by: {item.user}
+                        {item.user === this.state.user.displayName || item.user === this.state.user.email ?
+                        <button onClick={() => this.removeItem(item.id)}>Remove Dish</button> : null}
+                      </p>
                     </li>
                   )
                 })}
-              </ul>
+              </section>
             </div>
-          </section>
-        </div>
+          </div>
+          :
+          <div className='wrapper'>
+            <p>You must be logged in to see the potluck list and add dishes of your own.</p>
+          </div>
+        }
       </div>
     );
   }
