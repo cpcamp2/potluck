@@ -106,7 +106,7 @@ class App extends Component {
               <section className='add-item'>
                 <form onSubmit={this.handleSubmit}>
                   <input type="text" name="username" placeholder="What's your name" value={this.state.user.displayName || this.state.user.email} />
-                  <input type="text" name="username" placeholder="What dish are you bringing?" onChange={this.handleChange} value={this.state.currentItem} />
+                  <input type="text" name="currentItem" placeholder="What dish are you bringing?" onChange={this.handleChange} value={this.state.currentItem} />
                   <button>Add Dish</button>
                 </form>
               </section>
