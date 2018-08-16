@@ -63,6 +63,11 @@ class App extends Component {
       <div className='app'>
         <header>
           <div className='wrapper'>
+            {this.state.user ?
+              <button onClick={this.logout}>Log Out</button>
+              :
+              <button onClick={this.login}>Log Out</button>
+            }
             <h1>Potluck</h1>
           </div>
         </header>
