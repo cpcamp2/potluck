@@ -34,6 +34,11 @@ class App extends Component {
     });
   }
 
+  removeItem(itemId) {
+    const itemRef = firebase.database().ref(`/items/${itemId}`);
+    itemRef.remove();
+  }
+
   componentDidMount() {
     const itemsRef = firebase.database().ref('items');
     itemsRef.on('value', (snapshot) => {
