@@ -19,13 +19,13 @@ class App extends Component {
               <button>Add Dish</button>
             </form>
           </section>
+          <section className='display-item'>
+            <div className='wrapper'>
+              <ul>
+              </ul>
+            </div>
+          </section>
         </div>
-        <section className='display-item'>
-          <div className='wrapper'>
-            <ul>
-            </ul>
-          </div>
-        </section>
       </div>
     );
   }
