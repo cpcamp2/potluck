@@ -13,7 +13,11 @@ class App extends Component {
         </header>
         <div className='container'>
           <section className='add-item'>
-
+            <form>
+              <input type='text' name='username' placeholder='Enter your name' />
+              <input type='text' name='currentItem' placeholder='Enter your dish' />
+              <button>Add Dish</button>
+            </form>
           </section>
         </div>
         <section className='display-item'>
