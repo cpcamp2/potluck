@@ -81,6 +81,7 @@ class App extends Component {
                     <li key={item.id}>
                       <h3>{item.title}</h3>
                       <p>brought by: {item.user}</p>
+                      <button onClick={() => this.removeItem(item.id)}>Remove Dish</button>
                     </li>
                   )
                 })}
