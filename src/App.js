@@ -110,6 +110,20 @@ class App extends Component {
                   <button>Add Dish</button>
                 </form>
               </section>
+              <section className='display-item'>
+                {this.state.items.map((item) => {
+                  return (
+                    <li key={item.id}>
+                      <h3>{item.title}</h3>
+                      <p>
+                        brought by: {item.user}
+                        {item.user === this.state.user.displayName || item.user === this.state.user.email ?
+                        <button onClick={() => this.removeItem(item.id)}>Remove Dish</button> : null}
+                      </p>
+                    </li>
+                  )
+                })}
+              </section>
             </div>
           </div>
           :
